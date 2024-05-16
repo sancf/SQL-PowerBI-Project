@@ -116,15 +116,12 @@ ORDER BY DeathsPerMillon DESC;
 --GRAPH FILE NAME: "Covid map.pbix"
 
 
-
 SELECT location, 
-ROUND(SUM(new_cases) / population * 100, 4) as  PercentageInfected --calculate the percentage of the population infected
+ROUND(SUM(new_cases) / population * 100, 4) AS PercentageInfected --calculate the percentage of the population infected
 FROM dataset
 WHERE continent IS NOT NULL 
-GROUP BY location,population
-HAVING SUM(new_cases) / population IS NOT NULL 
+GROUP BY location, population
 ORDER BY PercentageInfected DESC;
-
 
 --------------------------------------------------------------------------------------------------------------------
 --9. This query returns, for the top 10 countries with the highest GDP, the number of new cases per million for each day.
