@@ -128,19 +128,20 @@ ORDER BY PercentageInfected DESC;
 -- Using this data, a time series graph is generated. 
 --GRAPH FILE NAME: "Covid time series.pbix" 
 
+
 SELECT location, date, 
-SUM(new_cases_per_million)  as CasesPerMillion
+       SUM(new_cases_per_million) AS CasesPerMillion
 FROM dataset
-WHERE continent IS NOT NULL AND new_cases_per_million IS NOT NULL
-AND location IN( --this subquery identifies the 10 countries with the highest GDP
-SELECT TOP 10 location --SELECT the top 10 results only 
-FROM dataset
-WHERE continent IS NOT NULL 
-GROUP BY location, population
-ORDER BY AVG(population * gdp_per_capita) DESC --order the countries based on the GDP
-) 
+WHERE location IN ( --this subquery identifies the 10 countries with the highest GDP
+    SELECT TOP 10 location --SELECT the top 10 results only 
+    FROM dataset
+    WHERE continent IS NOT NULL 
+    GROUP BY location
+    ORDER BY AVG(population * gdp_per_capita) DESC --order the countries based on the GDP
+)
 GROUP BY location, date
 ORDER BY location, date;
+
 
 ---------------------------------------------------------------------------------------------------------------------
 --10. This query calculates the average Human Development Index (HDI) for each continent.
